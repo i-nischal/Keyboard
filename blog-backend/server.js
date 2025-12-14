@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 
 // Load environment variables
-dotenv.config();
+import 'dotenv/config'
 
 // Import configurations and middleware
 import connectDB from "./config/db.js";
@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
   credentials: true,
   optionsSuccessStatus: 200,
 };
@@ -80,10 +80,7 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`
-    
     📡 Port: ${PORT}                                    
     🌐 URL: http://localhost:${PORT}                   
-                                                        
- 
   `);
 });
