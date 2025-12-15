@@ -1,10 +1,10 @@
 // frontend/src/components/blog/BlogList.jsx
-import { useState, useEffect } from 'react';
-import { blogsAPI } from '../../api/blogs';
-import BlogCard from './BlogCard';
-import LoadingSpinner from '../common/LoadingSpinner';
-import Button from '../common/Button';
-import { Search } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { blogsAPI } from "../../api/blogs";
+import BlogCard from "./BlogCard";
+import LoadingSpinner from "../common/LoadingSpinner";
+import Button from "../common/Button";
+import { Search } from "lucide-react";
 
 /**
  * Blog list component with search and pagination
@@ -12,8 +12,8 @@ import { Search } from 'lucide-react';
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
@@ -36,9 +36,9 @@ const BlogList = () => {
 
       setBlogs(response.data.blogs);
       setPagination(response.data.pagination);
-      setError('');
+      setError("");
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load blogs');
+      setError(err.response?.data?.message || "Failed to load blogs");
     } finally {
       setLoading(false);
     }
@@ -52,7 +52,7 @@ const BlogList = () => {
 
   const handlePageChange = (newPage) => {
     setPagination((prev) => ({ ...prev, page: newPage }));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (loading && blogs.length === 0) {
@@ -64,7 +64,10 @@ const BlogList = () => {
       {/* Search Bar */}
       <form onSubmit={handleSearch} className="flex gap-2">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <Search
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            size={20}
+          />
           <input
             type="text"
             value={searchTerm}

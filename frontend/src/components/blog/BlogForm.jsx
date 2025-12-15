@@ -1,10 +1,10 @@
 // frontend/src/components/blog/BlogForm.jsx
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { blogsAPI } from '../../api/blogs';
-import Input from '../common/Input';
-import Button from '../common/Button';
-import { Upload, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { blogsAPI } from "../../api/blogs";
+import Input from "../common/Input";
+import Button from "../common/Button";
+import { Upload, X } from "lucide-react";
 
 /**
  * Blog create/edit form component
@@ -12,14 +12,14 @@ import { Upload, X } from 'lucide-react';
 const BlogForm = ({ blogId = null, initialData = null }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    title: '',
-    content: '',
+    title: "",
+    content: "",
   });
   const [coverImage, setCoverImage] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewUrl, setPreviewUrl] = useState("");
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState('');
+  const [apiError, setApiError] = useState("");
 
   useEffect(() => {
     if (initialData) {
@@ -35,53 +35,65 @@ const BlogForm = ({ blogId = null, initialData = null }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
-    setApiError('');
+    setApiError("");
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       // Validate file type
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+      const allowedTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
       if (!allowedTypes.includes(file.type)) {
-        setErrors((prev) => ({ ...prev, coverImage: 'Please select a valid image file' }));
+        setErrors((prev) => ({
+          ...prev,
+          coverImage: "Please select a valid image file",
+        }));
         return;
       }
 
       // Validate file size (5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setErrors((prev) => ({ ...prev, coverImage: 'Image size must be less than 5MB' }));
+        setErrors((prev) => ({
+          ...prev,
+          coverImage: "Image size must be less than 5MB",
+        }));
         return;
       }
 
       setCoverImage(file);
       setPreviewUrl(URL.createObjectURL(file));
-      setErrors((prev) => ({ ...prev, coverImage: '' }));
+      setErrors((prev) => ({ ...prev, coverImage: "" }));
     }
   };
 
   const removeImage = () => {
     setCoverImage(null);
-    setPreviewUrl(initialData?.coverImage || '');
+    setPreviewUrl(initialData?.coverImage || "");
   };
 
   const validate = () => {
     const newErrors = {};
 
     if (!formData.title || formData.title.trim().length < 5) {
-      newErrors.title = 'Title must be at least 5 characters';
+      newErrors.title = "Title must be at least 5 characters";
     } else if (formData.title.trim().length > 200) {
-      newErrors.title = 'Title cannot exceed 200 characters';
+      newErrors.title = "Title cannot exceed 200 characters";
     }
 
     if (!formData.content || formData.content.trim().length < 20) {
-      newErrors.content = 'Content must be at least 20 characters';
+      newErrors.content = "Content must be at least 20 characters";
     }
 
     if (!blogId && !coverImage) {
-      newErrors.coverImage = 'Please upload a cover image';
+      newErrors.coverImage = "Please upload a cover image";
     }
 
     setErrors(newErrors);
@@ -97,11 +109,11 @@ const BlogForm = ({ blogId = null, initialData = null }) => {
 
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title.trim());
-      formDataToSend.append('content', formData.content.trim());
-      
+      formDataToSend.append("title", formData.title.trim());
+      formDataToSend.append("content", formData.content.trim());
+
       if (coverImage) {
-        formDataToSend.append('coverImage', coverImage);
+        formDataToSend.append("coverImage", coverImage);
       }
 
       let response;
@@ -113,7 +125,7 @@ const BlogForm = ({ blogId = null, initialData = null }) => {
 
       navigate(`/blog/${response.data._id}`);
     } catch (err) {
-      setApiError(err.response?.data?.message || 'Failed to save blog');
+      setApiError(err.response?.data?.message || "Failed to save blog");
     } finally {
       setLoading(false);
     }
@@ -166,9 +178,12 @@ const BlogForm = ({ blogId = null, initialData = null }) => {
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <Upload size={40} className="text-gray-400 mb-3" />
               <p className="mb-2 text-sm text-gray-500">
-                <span className="font-semibold">Click to upload</span> or drag and drop
+                <span className="font-semibold">Click to upload</span> or drag
+                and drop
               </p>
-              <p className="text-xs text-gray-500">PNG, JPG, GIF, WEBP (MAX. 5MB)</p>
+              <p className="text-xs text-gray-500">
+                PNG, JPG, GIF, WEBP (MAX. 5MB)
+              </p>
             </div>
             <input
               type="file"
@@ -195,7 +210,7 @@ const BlogForm = ({ blogId = null, initialData = null }) => {
           placeholder="Write your blog content here..."
           rows="12"
           className={`w-full px-4 py-2 border ${
-            errors.content ? 'border-red-500' : 'border-gray-300'
+            errors.content ? "border-red-500" : "border-gray-300"
           } rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent`}
         />
         {errors.content && (
@@ -205,15 +220,11 @@ const BlogForm = ({ blogId = null, initialData = null }) => {
 
       {/* Action Buttons */}
       <div className="flex justify-end space-x-3">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => navigate(-1)}
-        >
+        <Button type="button" variant="outline" onClick={() => navigate(-1)}>
           Cancel
         </Button>
         <Button type="submit" variant="primary" loading={loading}>
-          {blogId ? 'Update Blog' : 'Publish Blog'}
+          {blogId ? "Update Blog" : "Publish Blog"}
         </Button>
       </div>
     </form>

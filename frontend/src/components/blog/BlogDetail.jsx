@@ -1,14 +1,14 @@
 // frontend/src/components/blog/BlogDetail.jsx
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Heart, MessageCircle, Edit, Trash2, User } from 'lucide-react';
-import { blogsAPI } from '../../api/blogs';
-import { useAuth } from '../../context/AuthContext';
-import { formatDate } from '../../utils/formatDate';
-import LoadingSpinner from '../common/LoadingSpinner';
-import Button from '../common/Button';
-import CommentSection from './CommentSection';
-import Modal from '../common/Modal';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Heart, MessageCircle, Edit, Trash2, User } from "lucide-react";
+import { blogsAPI } from "../../api/blogs";
+import { useAuth } from "../../context/AuthContext";
+import { formatDate } from "../../utils/formatDate";
+import LoadingSpinner from "../common/LoadingSpinner";
+import Button from "../common/Button";
+import CommentSection from "./CommentSection";
+import Modal from "../common/Modal";
 
 /**
  * Blog detail view component
@@ -19,8 +19,11 @@ const BlogDetail = () => {
   const { user, isAuthenticated } = useAuth();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [likeStatus, setLikeStatus] = useState({ isLiked: false, likesCount: 0 });
+  const [error, setError] = useState("");
+  const [likeStatus, setLikeStatus] = useState({
+    isLiked: false,
+    likesCount: 0,
+  });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -36,9 +39,9 @@ const BlogDetail = () => {
       setLoading(true);
       const response = await blogsAPI.getBlogById(id);
       setBlog(response.data);
-      setError('');
+      setError("");
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load blog');
+      setError(err.response?.data?.message || "Failed to load blog");
     } finally {
       setLoading(false);
     }
@@ -49,13 +52,13 @@ const BlogDetail = () => {
       const response = await blogsAPI.getLikeStatus(id);
       setLikeStatus(response.data);
     } catch (err) {
-      console.error('Failed to fetch like status:', err);
+      console.error("Failed to fetch like status:", err);
     }
   };
 
   const handleLike = async () => {
     if (!isAuthenticated) {
-      navigate('/', { state: { message: 'Please login to like blogs' } });
+      navigate("/", { state: { message: "Please login to like blogs" } });
       return;
     }
 
@@ -63,7 +66,7 @@ const BlogDetail = () => {
       const response = await blogsAPI.toggleLike(id);
       setLikeStatus(response.data);
     } catch (err) {
-      console.error('Failed to toggle like:', err);
+      console.error("Failed to toggle like:", err);
     }
   };
 
@@ -75,9 +78,9 @@ const BlogDetail = () => {
     try {
       setDeleting(true);
       await blogsAPI.deleteBlog(id);
-      navigate('/home');
+      navigate("/home");
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to delete blog');
+      alert(err.response?.data?.message || "Failed to delete blog");
     } finally {
       setDeleting(false);
       setShowDeleteModal(false);
@@ -133,7 +136,9 @@ const BlogDetail = () => {
             )}
             <div>
               <p className="font-medium text-gray-900">{blog.author?.name}</p>
-              <p className="text-sm text-gray-500">{formatDate(blog.createdAt)}</p>
+              <p className="text-sm text-gray-500">
+                {formatDate(blog.createdAt)}
+              </p>
             </div>
           </div>
 
@@ -144,7 +149,11 @@ const BlogDetail = () => {
                 <Edit size={16} className="mr-1" />
                 Edit
               </Button>
-              <Button variant="danger" size="sm" onClick={() => setShowDeleteModal(true)}>
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => setShowDeleteModal(true)}
+              >
                 <Trash2 size={16} className="mr-1" />
                 Delete
               </Button>
@@ -157,10 +166,13 @@ const BlogDetail = () => {
           <button
             onClick={handleLike}
             className={`flex items-center space-x-2 ${
-              likeStatus.isLiked ? 'text-red-500' : 'text-gray-500'
+              likeStatus.isLiked ? "text-red-500" : "text-gray-500"
             } hover:text-red-500 transition-colors`}
           >
-            <Heart size={20} fill={likeStatus.isLiked ? 'currentColor' : 'none'} />
+            <Heart
+              size={20}
+              fill={likeStatus.isLiked ? "currentColor" : "none"}
+            />
             <span>{likeStatus.likesCount}</span>
           </button>
           <div className="flex items-center space-x-2 text-gray-500">
@@ -172,7 +184,9 @@ const BlogDetail = () => {
 
       {/* Blog Content */}
       <div className="prose max-w-none mb-12">
-        <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">{blog.content}</p>
+        <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+          {blog.content}
+        </p>
       </div>
 
       {/* Comments Section */}
@@ -187,7 +201,8 @@ const BlogDetail = () => {
       >
         <div className="space-y-4">
           <p className="text-gray-600">
-            Are you sure you want to delete this blog? This action cannot be undone.
+            Are you sure you want to delete this blog? This action cannot be
+            undone.
           </p>
           <div className="flex justify-end space-x-2">
             <Button variant="outline" onClick={() => setShowDeleteModal(false)}>

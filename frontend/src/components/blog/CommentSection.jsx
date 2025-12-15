@@ -1,11 +1,11 @@
 // frontend/src/components/blog/CommentSection.jsx
-import { useState, useEffect } from 'react';
-import { blogsAPI } from '../../api/blogs';
-import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../../utils/formatDate';
-import Button from '../common/Button';
-import { Edit2, Trash2, User } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { blogsAPI } from "../../api/blogs";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../utils/formatDate";
+import Button from "../common/Button";
+import { Edit2, Trash2, User } from "lucide-react";
 
 /**
  * Comment section component with add, edit, delete functionality
@@ -15,9 +15,9 @@ const CommentSection = ({ blogId }) => {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
   const [editingId, setEditingId] = useState(null);
-  const [editContent, setEditContent] = useState('');
+  const [editContent, setEditContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const CommentSection = ({ blogId }) => {
       const response = await blogsAPI.getComments(blogId);
       setComments(response.data.comments);
     } catch (err) {
-      console.error('Failed to fetch comments:', err);
+      console.error("Failed to fetch comments:", err);
     } finally {
       setLoading(false);
     }
@@ -40,7 +40,7 @@ const CommentSection = ({ blogId }) => {
     e.preventDefault();
 
     if (!isAuthenticated) {
-      navigate('/', { state: { message: 'Please login to comment' } });
+      navigate("/", { state: { message: "Please login to comment" } });
       return;
     }
 
@@ -50,9 +50,9 @@ const CommentSection = ({ blogId }) => {
       setSubmitting(true);
       const response = await blogsAPI.addComment(blogId, newComment);
       setComments([response.data, ...comments]);
-      setNewComment('');
+      setNewComment("");
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to add comment');
+      alert(err.response?.data?.message || "Failed to add comment");
     } finally {
       setSubmitting(false);
     }
@@ -63,22 +63,25 @@ const CommentSection = ({ blogId }) => {
 
     try {
       const response = await blogsAPI.updateComment(commentId, editContent);
-      setComments(comments.map((c) => (c._id === commentId ? response.data : c)));
+      setComments(
+        comments.map((c) => (c._id === commentId ? response.data : c))
+      );
       setEditingId(null);
-      setEditContent('');
+      setEditContent("");
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update comment');
+      alert(err.response?.data?.message || "Failed to update comment");
     }
   };
 
   const handleDeleteComment = async (commentId) => {
-    if (!window.confirm('Are you sure you want to delete this comment?')) return;
+    if (!window.confirm("Are you sure you want to delete this comment?"))
+      return;
 
     try {
       await blogsAPI.deleteComment(commentId);
       setComments(comments.filter((c) => c._id !== commentId));
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to delete comment');
+      alert(err.response?.data?.message || "Failed to delete comment");
     }
   };
 
@@ -89,7 +92,7 @@ const CommentSection = ({ blogId }) => {
 
   const cancelEditing = () => {
     setEditingId(null);
-    setEditContent('');
+    setEditContent("");
   };
 
   return (
@@ -110,7 +113,12 @@ const CommentSection = ({ blogId }) => {
             maxLength={500}
           />
           <div className="flex justify-end mt-2">
-            <Button type="submit" variant="primary" size="sm" loading={submitting}>
+            <Button
+              type="submit"
+              variant="primary"
+              size="sm"
+              loading={submitting}
+            >
               Post Comment
             </Button>
           </div>
@@ -118,13 +126,13 @@ const CommentSection = ({ blogId }) => {
       ) : (
         <div className="mb-8 p-4 bg-gray-50 rounded-md text-center">
           <p className="text-gray-600">
-            Please{' '}
+            Please{" "}
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate("/")}
               className="text-black font-medium hover:underline"
             >
               login
-            </button>{' '}
+            </button>{" "}
             to comment
           </p>
         </div>
@@ -135,7 +143,9 @@ const CommentSection = ({ blogId }) => {
         {loading ? (
           <p className="text-gray-500 text-center">Loading comments...</p>
         ) : comments.length === 0 ? (
-          <p className="text-gray-500 text-center">No comments yet. Be the first to comment!</p>
+          <p className="text-gray-500 text-center">
+            No comments yet. Be the first to comment!
+          </p>
         ) : (
           comments.map((comment) => (
             <div key={comment._id} className="bg-gray-50 p-4 rounded-md">
@@ -153,8 +163,12 @@ const CommentSection = ({ blogId }) => {
                     </div>
                   )}
                   <div>
-                    <p className="font-medium text-gray-900">{comment.author?.name}</p>
-                    <p className="text-xs text-gray-500">{formatDate(comment.createdAt)}</p>
+                    <p className="font-medium text-gray-900">
+                      {comment.author?.name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {formatDate(comment.createdAt)}
+                    </p>
                   </div>
                 </div>
 

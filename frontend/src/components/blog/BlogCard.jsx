@@ -1,8 +1,7 @@
-// frontend/src/components/blog/BlogCard.jsx
-import { Heart, MessageCircle, User } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../../utils/formatDate';
-import Card from '../common/Card';
+import { Heart, MessageCircle, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../utils/formatDate";
+import Card from "../common/Card";
 
 /**
  * Blog card component for displaying blog preview
@@ -17,7 +16,7 @@ const BlogCard = ({ blog }) => {
   // Truncate content to 150 characters
   const truncateContent = (text, maxLength = 150) => {
     if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength) + '...';
+    return text.slice(0, maxLength) + "...";
   };
 
   return (
@@ -50,9 +49,11 @@ const BlogCard = ({ blog }) => {
               )}
               <div>
                 <p className="text-sm font-medium text-gray-900">
-                  {blog.author?.name || 'Anonymous'}
+                  {blog.author?.name || "Anonymous"}
                 </p>
-                <p className="text-xs text-gray-500">{formatDate(blog.createdAt)}</p>
+                <p className="text-xs text-gray-500">
+                  {formatDate(blog.createdAt)}
+                </p>
               </div>
             </div>
 
