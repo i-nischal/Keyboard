@@ -1,6 +1,6 @@
 // frontend/src/components/layout/Sidebar.jsx
 import { useState, useRef, useEffect } from "react";
-import { Home, PenSquare, BarChart3, User, LogOut } from "lucide-react";
+import { Home, PenSquare, FileText, BarChart3, User } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
@@ -17,7 +17,9 @@ const Sidebar = () => {
   const menuItems = [
     { name: "Home", icon: Home, path: "/home" },
     { name: "Write", icon: PenSquare, path: "/create" },
+    { name: "My Blogs", icon: FileText, path: "/my-blogs" },
     { name: "Analytics", icon: BarChart3, path: "/analytics" },
+    { name: "Profile", icon: User, path: "/profile" },
   ];
 
   const isActive = (path) => location.pathname === path;

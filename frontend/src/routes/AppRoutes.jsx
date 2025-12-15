@@ -1,16 +1,17 @@
 // frontend/src/routes/AppRoutes.jsx
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import ProtectedRoute from './ProtectedRoute';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import ProtectedRoute from "./ProtectedRoute";
 
 // Pages
-import Landing from '../pages/Landing';
-import Home from '../pages/Home';
-import BlogPage from '../pages/BlogPage';
-import CreateBlog from '../pages/CreateBlog';
-import EditBlog from '../pages/EditBlog';
-import Analytics from '../pages/Analytics';
-import Profile from '../pages/Profile';
+import Landing from "../pages/Landing";
+import Home from "../pages/Home";
+import BlogPage from "../pages/BlogPage";
+import CreateBlog from "../pages/CreateBlog";
+import EditBlog from "../pages/EditBlog";
+import Analytics from "../pages/Analytics";
+import Profile from "../pages/Profile";
+import MyBlogs from "../pages/Myblogs";
 
 /**
  * Application routes configuration
@@ -24,7 +25,9 @@ const AppRoutes = () => {
         {/* Public Routes */}
         <Route
           path="/"
-          element={isAuthenticated ? <Navigate to="/home" replace /> : <Landing />}
+          element={
+            isAuthenticated ? <Navigate to="/home" replace /> : <Landing />
+          }
         />
         <Route path="/home" element={<Home />} />
         <Route path="/blog/:id" element={<BlogPage />} />
@@ -43,6 +46,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <EditBlog />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-blogs"
+          element={
+            <ProtectedRoute>
+              <MyBlogs />
             </ProtectedRoute>
           }
         />
