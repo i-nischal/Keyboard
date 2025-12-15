@@ -37,11 +37,13 @@ const BlogCard = ({ blog }) => {
             {/* Author Info */}
             <div className="flex items-center space-x-2 mb-3">
               {blog.author?.avatar ? (
-                <img
-                  src={blog.author.avatar}
-                  alt={blog.author.name}
-                  className="w-8 h-8 rounded-full"
-                />
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200">
+                  <img
+                    src={blog.author.avatar}
+                    alt={blog.author.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               ) : (
                 <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                   <User size={16} className="text-gray-500" />

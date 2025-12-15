@@ -1,7 +1,7 @@
 // frontend/src/pages/Home.jsx
-import { useAuth } from '../context/AuthContext';
-import DashboardLayout from '../components/layout/DashboardLayout';
-import BlogList from '../components/blog/BlogList';
+import { useAuth } from "../context/AuthContext";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import BlogList from "../components/blog/BlogList";
 
 /**
  * Home page - displays blog feed
@@ -14,8 +14,12 @@ const Home = () => {
       <DashboardLayout>
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Latest Blogs</h1>
-            <p className="text-gray-600">Discover stories from writers around the world</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              Latest Blogs
+            </h1>
+            <p className="text-gray-600">
+              Discover stories from writers around the world
+            </p>
           </div>
           <BlogList />
         </div>
@@ -33,11 +37,15 @@ const Home = () => {
           </div>
         </div>
       </nav>
-      
+
       <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Latest Blogs</h1>
-          <p className="text-gray-600">Discover stories from writers around the world</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            Latest Blogs
+          </h1>
+          <p className="text-gray-600">
+            Discover stories from writers around the world
+          </p>
         </div>
         <BlogList />
       </div>

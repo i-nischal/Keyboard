@@ -138,10 +138,10 @@ const Profile = () => {
                     <img
                       src={user.avatar}
                       alt={user.name}
-                      className="w-20 h-20 rounded-full"
+                      className="w-20 h-20 rounded-full object-cover shrink-0"
                     />
                   ) : (
-                    <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center">
+                    <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
                       <User size={40} className="text-gray-500" />
                     </div>
                   )}
