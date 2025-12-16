@@ -1,7 +1,7 @@
 {
   "name": "blog-management-backend",
   "version": "1.0.0",
-  "description": "Medium-lite Blog Management System Backend",
+  "description": "Blog Management System Backend",
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "mern",
     "rest-api"
   ],
-  "author": "",
+  "author": "Nischal Shrestha",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
