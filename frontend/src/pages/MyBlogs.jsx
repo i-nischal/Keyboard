@@ -11,6 +11,7 @@ import {
   Eye,
   MoreVertical,
   Upload,
+  EyeOff,
 } from "lucide-react";
 import Button from "../components/common/Button";
 import Card from "../components/common/Card";
@@ -27,6 +28,7 @@ const MyBlogs = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [blogToDelete, setBlogToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [updatingStatus, setUpdatingStatus] = useState(null);
 
   // three-dot menu control
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -74,10 +76,46 @@ const MyBlogs = () => {
     setOpenMenuId(null);
   };
 
-  const handlePublish = (blogId) => {
-    // TODO: hook publish API later
-    console.log("Publish blog:", blogId);
-    setOpenMenuId(null);
+  const handlePublish = async (blog) => {
+    try {
+      setUpdatingStatus(blog._id);
+      const formData = new FormData();
+      formData.append("title", blog.title);
+      formData.append("content", blog.content);
+      formData.append("status", "published");
+
+      await blogsAPI.updateBlog(blog._id, formData);
+      
+      // Refresh both tabs and counts
+      fetchMyBlogs();
+      fetchCounts();
+      setOpenMenuId(null);
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to publish blog");
+    } finally {
+      setUpdatingStatus(null);
+    }
+  };
+
+  const handleUnpublish = async (blog) => {
+    try {
+      setUpdatingStatus(blog._id);
+      const formData = new FormData();
+      formData.append("title", blog.title);
+      formData.append("content", blog.content);
+      formData.append("status", "draft");
+
+      await blogsAPI.updateBlog(blog._id, formData);
+      
+      // Refresh both tabs and counts
+      fetchMyBlogs();
+      fetchCounts();
+      setOpenMenuId(null);
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to unpublish blog");
+    } finally {
+      setUpdatingStatus(null);
+    }
   };
 
   const handleDeleteClick = (blog) => {
@@ -201,58 +239,100 @@ const MyBlogs = () => {
                         </div>
                       </div>
 
-                      {/* Actions (three-dot menu only change) */}
-                      <div className="relative">
-                        <button
-                          onClick={() =>
-                            setOpenMenuId(
-                              openMenuId === blog._id ? null : blog._id
-                            )
-                          }
-                          className="p-2 rounded-full hover:bg-gray-100"
-                        >
-                          <MoreVertical size={18} />
-                        </button>
-
-                        {openMenuId === blog._id && (
-                          <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-md z-10">
-                            {activeTab === "published" && (
-                              <button
-                                onClick={() => handleView(blog._id)}
-                                className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
-                              >
-                                <Eye size={14} className="mr-2" />
-                                View
-                              </button>
+                      {/* Action Buttons */}
+                      <div className="flex items-start gap-2">
+                        {/* Publish/Unpublish Button */}
+                        {activeTab === "published" ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleUnpublish(blog)}
+                            disabled={updatingStatus === blog._id}
+                            className="flex items-center"
+                          >
+                            {updatingStatus === blog._id ? (
+                              <span className="flex items-center">
+                                <svg className="animate-spin h-4 w-4 mr-1" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                </svg>
+                                Unpublishing...
+                              </span>
+                            ) : (
+                              <>
+                                <EyeOff size={16} className="mr-1" />
+                                Unpublish
+                              </>
                             )}
-
-                            {activeTab === "draft" && (
-                              <button
-                                onClick={() => handlePublish(blog._id)}
-                                className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
-                              >
-                                <Upload size={14} className="mr-2" />
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => handlePublish(blog)}
+                            disabled={updatingStatus === blog._id}
+                            className="flex items-center"
+                          >
+                            {updatingStatus === blog._id ? (
+                              <span className="flex items-center">
+                                <svg className="animate-spin h-4 w-4 mr-1" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                </svg>
+                                Publishing...
+                              </span>
+                            ) : (
+                              <>
+                                <Upload size={16} className="mr-1" />
                                 Publish
-                              </button>
+                              </>
                             )}
-
-                            <button
-                              onClick={() => handleEdit(blog._id)}
-                              className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
-                            >
-                              <Edit size={14} className="mr-2" />
-                              Edit
-                            </button>
-
-                            <button
-                              onClick={() => handleDeleteClick(blog)}
-                              className="flex items-center w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50"
-                            >
-                              <Trash2 size={14} className="mr-2" />
-                              Delete
-                            </button>
-                          </div>
+                          </Button>
                         )}
+
+                        {/* Three-dot Menu */}
+                        <div className="relative">
+                          <button
+                            onClick={() =>
+                              setOpenMenuId(
+                                openMenuId === blog._id ? null : blog._id
+                              )
+                            }
+                            className="p-2 rounded-full hover:bg-gray-100"
+                          >
+                            <MoreVertical size={18} />
+                          </button>
+
+                          {openMenuId === blog._id && (
+                            <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-md z-10">
+                              {activeTab === "published" && (
+                                <button
+                                  onClick={() => handleView(blog._id)}
+                                  className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
+                                >
+                                  <Eye size={14} className="mr-2" />
+                                  View
+                                </button>
+                              )}
+
+                              <button
+                                onClick={() => handleEdit(blog._id)}
+                                className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100"
+                              >
+                                <Edit size={14} className="mr-2" />
+                                Edit
+                              </button>
+
+                              <button
+                                onClick={() => handleDeleteClick(blog)}
+                                className="flex items-center w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                              >
+                                <Trash2 size={14} className="mr-2" />
+                                Delete
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
