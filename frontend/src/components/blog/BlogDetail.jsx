@@ -1,4 +1,3 @@
-// frontend/src/components/blog/BlogDetail.jsx
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Heart, MessageCircle, Edit, Trash2, User } from "lucide-react";
@@ -58,7 +57,10 @@ const BlogDetail = () => {
 
   const handleLike = async () => {
     if (!isAuthenticated) {
-      navigate("/", { state: { message: "Please login to like blogs" } });
+      // Redirect to login page with return path
+      navigate("/login", {
+        state: { from: `/blog/${id}`, message: "Please login to like blogs" },
+      });
       return;
     }
 
@@ -168,6 +170,7 @@ const BlogDetail = () => {
             className={`flex items-center space-x-2 ${
               likeStatus.isLiked ? "text-red-500" : "text-gray-500"
             } hover:text-red-500 transition-colors`}
+            title={!isAuthenticated ? "Login to like" : ""}
           >
             <Heart
               size={20}

@@ -1,4 +1,3 @@
-// frontend/src/components/blog/BlogCard.jsx
 import { Heart, MessageCircle, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";

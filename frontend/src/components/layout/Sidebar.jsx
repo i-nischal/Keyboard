@@ -1,4 +1,3 @@
-// frontend/src/components/layout/Sidebar.jsx
 import { useState, useRef, useEffect } from "react";
 import {
   Home,

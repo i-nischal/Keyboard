@@ -1,4 +1,3 @@
-// frontend/src/pages/auth/Register.jsx
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -91,7 +90,7 @@ const RegisterForm = () => {
         )}
 
         {/* Form */}
-        <div className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Name Input */}
           <div className="relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
@@ -176,7 +175,7 @@ const RegisterForm = () => {
             )}
           </div>
 
-          {/* Terms Checkbox */}
+          {/* Terms Checkbox - ONLY IN REGISTRATION */}
           <div className="flex items-center justify-center gap-2 py-2">
             <input
               type="checkbox"
@@ -193,7 +192,7 @@ const RegisterForm = () => {
 
           {/* Sign Up Button */}
           <button
-            onClick={handleSubmit}
+            type="submit"
             disabled={loading}
             className="w-full bg-black text-white font-semibold py-3.5 rounded-full hover:bg-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -234,7 +233,7 @@ const RegisterForm = () => {
               ← Back to blogs
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

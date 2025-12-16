@@ -1,11 +1,10 @@
-// frontend/src/pages/Analytics.jsx
-import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { analyticsAPI } from '../api/analytics';
-import DashboardLayout from '../components/layout/DashboardLayout';
-import Card from '../components/common/Card';
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import { Eye, Heart, MessageCircle, FileText } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { analyticsAPI } from "../api/analytics";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import Card from "../components/common/Card";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import { Eye, Heart, MessageCircle, FileText } from "lucide-react";
 
 /**
  * Analytics page showing user statistics
@@ -14,7 +13,7 @@ const Analytics = () => {
   const { user } = useAuth();
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchAnalytics();
@@ -26,7 +25,7 @@ const Analytics = () => {
       const data = await analyticsAPI.getUserAnalytics(user._id);
       setAnalytics(data);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load analytics');
+      setError(err.response?.data?.message || "Failed to load analytics");
     } finally {
       setLoading(false);
     }
@@ -52,32 +51,32 @@ const Analytics = () => {
 
   const stats = [
     {
-      title: 'Total Views',
+      title: "Total Views",
       value: analytics.totalViews,
       icon: Eye,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
     },
     {
-      title: 'Total Likes',
+      title: "Total Likes",
       value: analytics.totalLikes,
       icon: Heart,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
+      color: "text-red-600",
+      bgColor: "bg-red-50",
     },
     {
-      title: 'Total Comments',
+      title: "Total Comments",
       value: analytics.totalComments,
       icon: MessageCircle,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
+      color: "text-green-600",
+      bgColor: "bg-green-50",
     },
     {
-      title: 'Total Blogs',
+      title: "Total Blogs",
       value: analytics.totalBlogs,
       icon: FileText,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
     },
   ];
 
@@ -86,7 +85,9 @@ const Analytics = () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Analytics</h1>
-          <p className="text-gray-600">Track your blog performance and engagement</p>
+          <p className="text-gray-600">
+            Track your blog performance and engagement
+          </p>
         </div>
 
         {/* Stats Grid */}
@@ -103,7 +104,9 @@ const Analytics = () => {
                   </div>
                   <div>
                     <p className="text-gray-600 text-sm mb-1">{stat.title}</p>
-                    <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="text-3xl font-bold text-gray-900">
+                      {stat.value}
+                    </p>
                   </div>
                 </div>
               </Card>
@@ -114,11 +117,14 @@ const Analytics = () => {
         {/* Recent Blogs Performance */}
         <Card>
           <div className="p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Blogs Performance</h2>
-            
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Your Blogs Performance
+            </h2>
+
             {analytics.blogs.length === 0 ? (
               <p className="text-gray-500 text-center py-8">
-                You haven't published any blogs yet. Start writing to see your analytics!
+                You haven't published any blogs yet. Start writing to see your
+                analytics!
               </p>
             ) : (
               <div className="space-y-4">
@@ -128,9 +134,12 @@ const Analytics = () => {
                     className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                   >
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-1">{blog.title}</h3>
+                      <h3 className="font-semibold text-gray-900 mb-1">
+                        {blog.title}
+                      </h3>
                       <p className="text-sm text-gray-500">
-                        Published on {new Date(blog.createdAt).toLocaleDateString()}
+                        Published on{" "}
+                        {new Date(blog.createdAt).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="flex items-center space-x-6 text-sm text-gray-600">

@@ -1,5 +1,4 @@
-// frontend/src/api/analytics.js
-import api from './axios';
+import api from "./axios";
 
 export const analyticsAPI = {
   // Get user analytics (total likes, comments, views)
@@ -12,7 +11,10 @@ export const analyticsAPI = {
       // Calculate analytics
       const totalBlogs = blogs.length;
       const totalLikes = blogs.reduce((sum, blog) => sum + blog.likesCount, 0);
-      const totalComments = blogs.reduce((sum, blog) => sum + blog.commentsCount, 0);
+      const totalComments = blogs.reduce(
+        (sum, blog) => sum + blog.commentsCount,
+        0
+      );
 
       // Calculate views (approximate based on likes + comments)
       const totalViews = totalLikes * 3 + totalComments * 2;

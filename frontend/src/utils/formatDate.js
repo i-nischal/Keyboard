@@ -1,5 +1,3 @@
-// frontend/src/utils/formatDate.js
-
 /**
  * Format date to readable string
  * @param {string|Date} date - Date to format
@@ -7,8 +5,8 @@
  */
 export const formatDate = (date) => {
   const d = new Date(date);
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
-  return d.toLocaleDateString('en-US', options);
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  return d.toLocaleDateString("en-US", options);
 };
 
 /**
@@ -21,11 +19,14 @@ export const getRelativeTime = (date) => {
   const past = new Date(date);
   const diffInSeconds = Math.floor((now - past) / 1000);
 
-  if (diffInSeconds < 60) return 'just now';
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
-  
+  if (diffInSeconds < 60) return "just now";
+  if (diffInSeconds < 3600)
+    return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+  if (diffInSeconds < 86400)
+    return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+  if (diffInSeconds < 604800)
+    return `${Math.floor(diffInSeconds / 86400)} days ago`;
+
   return formatDate(date);
 };
 

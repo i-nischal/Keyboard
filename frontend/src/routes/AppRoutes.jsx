@@ -1,4 +1,3 @@
-// frontend/src/routes/AppRoutes.jsx
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
@@ -11,7 +10,12 @@ import CreateBlog from "../pages/CreateBlog";
 import EditBlog from "../pages/EditBlog";
 import Analytics from "../pages/Analytics";
 import Profile from "../pages/Profile";
-import MyBlogs from "../pages/Myblogs"; 
+import MyBlogs from "../pages/Myblogs";
+
+// Auth Components
+import LoginForm from "../components/auth/LoginForm";
+import RegisterForm from "../components/auth/RegisterForm";
+
 /**
  * Application routes configuration
  */
@@ -28,6 +32,22 @@ const AppRoutes = () => {
             isAuthenticated ? <Navigate to="/home" replace /> : <Landing />
           }
         />
+
+        {/* Auth Routes */}
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? <Navigate to="/home" replace /> : <LoginForm />
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            isAuthenticated ? <Navigate to="/home" replace /> : <RegisterForm />
+          }
+        />
+
+        {/* Public Blog Routes */}
         <Route path="/home" element={<Home />} />
         <Route path="/blog/:id" element={<BlogPage />} />
 

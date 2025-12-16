@@ -1,4 +1,3 @@
-// frontend/src/api/blogs.js
 import api from "./axios";
 
 export const blogsAPI = {

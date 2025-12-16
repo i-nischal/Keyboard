@@ -1,4 +1,3 @@
-// frontend/src/pages/MyBlogs.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { blogsAPI } from "../api/blogs";
@@ -85,7 +84,7 @@ const MyBlogs = () => {
       formData.append("status", "published");
 
       await blogsAPI.updateBlog(blog._id, formData);
-      
+
       // Refresh both tabs and counts
       fetchMyBlogs();
       fetchCounts();
@@ -106,7 +105,7 @@ const MyBlogs = () => {
       formData.append("status", "draft");
 
       await blogsAPI.updateBlog(blog._id, formData);
-      
+
       // Refresh both tabs and counts
       fetchMyBlogs();
       fetchCounts();
@@ -144,7 +143,7 @@ const MyBlogs = () => {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = htmlContent;
     const textContent = tempDiv.textContent || tempDiv.innerText || "";
-    
+
     if (textContent.length <= maxLength) return textContent;
     return textContent.slice(0, maxLength) + "...";
   };
@@ -154,7 +153,9 @@ const MyBlogs = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">My Blogs</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+            My Blogs
+          </h1>
           <p className="text-sm sm:text-base text-gray-600">
             Manage your published posts and drafts
           </p>
@@ -226,7 +227,7 @@ const MyBlogs = () => {
                         <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 leading-snug">
                           {blog.title}
                         </h3>
-                        
+
                         {/* Stats - Slightly larger */}
                         <div className="flex items-center gap-3 text-sm text-gray-500">
                           <span>{formatDate(blog.updatedAt)}</span>
@@ -293,7 +294,9 @@ const MyBlogs = () => {
                                     className="flex items-center w-full px-4 py-3 text-base hover:bg-gray-50 disabled:opacity-50"
                                   >
                                     <EyeOff size={16} className="mr-2.5" />
-                                    {updatingStatus === blog._id ? "Unpublishing..." : "Unpublish"}
+                                    {updatingStatus === blog._id
+                                      ? "Unpublishing..."
+                                      : "Unpublish"}
                                   </button>
                                 ) : (
                                   <button
@@ -302,7 +305,9 @@ const MyBlogs = () => {
                                     className="flex items-center w-full px-4 py-3 text-base hover:bg-gray-50 disabled:opacity-50"
                                   >
                                     <Upload size={16} className="mr-2.5" />
-                                    {updatingStatus === blog._id ? "Publishing..." : "Publish"}
+                                    {updatingStatus === blog._id
+                                      ? "Publishing..."
+                                      : "Publish"}
                                   </button>
                                 )}
                               </div>
@@ -369,9 +374,24 @@ const MyBlogs = () => {
                           >
                             {updatingStatus === blog._id ? (
                               <span className="flex items-center">
-                                <svg className="animate-spin h-4 w-4 mr-1" viewBox="0 0 24 24">
-                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                <svg
+                                  className="animate-spin h-4 w-4 mr-1"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                    fill="none"
+                                  />
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  />
                                 </svg>
                                 Unpublishing
                               </span>
@@ -392,9 +412,24 @@ const MyBlogs = () => {
                           >
                             {updatingStatus === blog._id ? (
                               <span className="flex items-center">
-                                <svg className="animate-spin h-4 w-4 mr-1" viewBox="0 0 24 24">
-                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                <svg
+                                  className="animate-spin h-4 w-4 mr-1"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                    fill="none"
+                                  />
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  />
                                 </svg>
                                 Publishing
                               </span>
@@ -455,7 +490,9 @@ const MyBlogs = () => {
                                       className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100 disabled:opacity-50"
                                     >
                                       <EyeOff size={14} className="mr-2" />
-                                      {updatingStatus === blog._id ? "Unpublishing..." : "Unpublish"}
+                                      {updatingStatus === blog._id
+                                        ? "Unpublishing..."
+                                        : "Unpublish"}
                                     </button>
                                   ) : (
                                     <button
@@ -464,7 +501,9 @@ const MyBlogs = () => {
                                       className="flex items-center w-full px-3 py-2 text-sm hover:bg-gray-100 disabled:opacity-50"
                                     >
                                       <Upload size={14} className="mr-2" />
-                                      {updatingStatus === blog._id ? "Publishing..." : "Publish"}
+                                      {updatingStatus === blog._id
+                                        ? "Publishing..."
+                                        : "Publish"}
                                     </button>
                                   )}
                                 </div>

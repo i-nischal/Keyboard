@@ -1,19 +1,18 @@
-// frontend/src/context/AuthContext.jsx
-import { createContext, useContext, useState, useEffect } from 'react';
-import { authAPI } from '../api/auth';
+import { createContext, useContext, useState, useEffect } from "react";
+import { authAPI } from "../api/auth";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   // Initialize auth state from localStorage
   useEffect(() => {
     const initAuth = async () => {
-      const storedToken = localStorage.getItem('token');
-      const storedUser = localStorage.getItem('user');
+      const storedToken = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
 
       if (storedToken && storedUser) {
         setToken(storedToken);
@@ -31,8 +30,8 @@ export const AuthProvider = ({ children }) => {
       const response = await authAPI.login(credentials);
       const { token: newToken, ...userData } = response.data;
 
-      localStorage.setItem('token', newToken);
-      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem("token", newToken);
+      localStorage.setItem("user", JSON.stringify(userData));
 
       setToken(newToken);
       setUser(userData);
@@ -41,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        message: error.response?.data?.message || 'Login failed',
+        message: error.response?.data?.message || "Login failed",
       };
     }
   };
@@ -52,8 +51,8 @@ export const AuthProvider = ({ children }) => {
       const response = await authAPI.register(userData);
       const { token: newToken, ...user } = response.data;
 
-      localStorage.setItem('token', newToken);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem("token", newToken);
+      localStorage.setItem("user", JSON.stringify(user));
 
       setToken(newToken);
       setUser(user);
@@ -62,15 +61,15 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        message: error.response?.data?.message || 'Registration failed',
+        message: error.response?.data?.message || "Registration failed",
       };
     }
   };
 
   // Logout function
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setToken(null);
     setUser(null);
   };
@@ -79,7 +78,7 @@ export const AuthProvider = ({ children }) => {
   const updateUser = (updatedData) => {
     const updatedUser = { ...user, ...updatedData };
     setUser(updatedUser);
-    localStorage.setItem('user', JSON.stringify(updatedUser));
+    localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
   const value = {
@@ -100,7 +99,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
+    throw new Error("useAuth must be used within AuthProvider");
   }
   return context;
 };

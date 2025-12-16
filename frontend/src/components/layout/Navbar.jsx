@@ -1,11 +1,12 @@
-// frontend/src/components/layout/Navbar.jsx
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Search, X, Menu } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import Button from "../common/Button";
 
 /**
  * Responsive navigation bar with hamburger menu for mobile
+ * Shows Login/Register for guests, menu toggle for authenticated users
  */
 const Navbar = ({ onSearch, onMenuToggle }) => {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ const Navbar = ({ onSearch, onMenuToggle }) => {
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 gap-4">
-          {/* Left: Hamburger Menu (Mobile) + Logo */}
+          {/* Left: Hamburger Menu (Mobile - Auth only) + Logo */}
           <div className="flex items-center gap-3">
             {/* Hamburger Menu - Only show when authenticated */}
             {isAuthenticated && (
@@ -116,7 +117,7 @@ const Navbar = ({ onSearch, onMenuToggle }) => {
                   onChange={handleSearchChange}
                   onFocus={() => setIsSearchFocused(true)}
                   onBlur={() => setIsSearchFocused(false)}
-                  placeholder="Search blogs... (⌘K)"
+                  placeholder="Search blogs..."
                   className="w-full pl-11 pr-10 py-2.5 bg-white border-2 border-gray-200 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:border-black transition-all"
                 />
                 {searchTerm && (
@@ -132,8 +133,46 @@ const Navbar = ({ onSearch, onMenuToggle }) => {
             </form>
           )}
 
-          {/* Right Side - Empty for now, can add user actions */}
-          <div className="shrink-0 w-10"></div>
+          {/* Right Side - Login/Register or Empty Space */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {!isAuthenticated && (
+              <>
+                {/* Desktop/Tablet View */}
+                <div className="hidden sm:flex items-center gap-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => navigate("/register")}
+                  >
+                    Sign Up
+                  </Button>
+                </div>
+
+                {/* Mobile View - Compact */}
+                <div className="flex sm:hidden items-center gap-2">
+                  <button
+                    onClick={() => navigate("/login")}
+                    className="px-3 py-1.5 text-sm font-medium text-gray-700 hover:text-black transition-colors"
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={() => navigate("/register")}
+                    className="px-3 py-1.5 text-sm font-medium bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Mobile Search Bar */}

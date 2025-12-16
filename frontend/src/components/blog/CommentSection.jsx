@@ -1,5 +1,5 @@
-// frontend/src/components/blog/CommentSection.jsx
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { blogsAPI } from "../../api/blogs";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import { Edit2, Trash2, User } from "lucide-react";
 const CommentSection = ({ blogId }) => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { id } = useParams();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
@@ -40,7 +41,10 @@ const CommentSection = ({ blogId }) => {
     e.preventDefault();
 
     if (!isAuthenticated) {
-      navigate("/", { state: { message: "Please login to comment" } });
+      // Redirect to login page with return path
+      navigate("/login", {
+        state: { from: `/blog/${id}`, message: "Please login to comment" },
+      });
       return;
     }
 
@@ -95,6 +99,12 @@ const CommentSection = ({ blogId }) => {
     setEditContent("");
   };
 
+  const handleLoginRedirect = () => {
+    navigate("/login", {
+      state: { from: `/blog/${id}`, message: "Please login to comment" },
+    });
+  };
+
   return (
     <div className="border-t pt-8">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
@@ -124,17 +134,13 @@ const CommentSection = ({ blogId }) => {
           </div>
         </form>
       ) : (
-        <div className="mb-8 p-4 bg-gray-50 rounded-md text-center">
-          <p className="text-gray-600">
-            Please{" "}
-            <button
-              onClick={() => navigate("/")}
-              className="text-black font-medium hover:underline"
-            >
-              login
-            </button>{" "}
-            to comment
+        <div className="mb-8 p-6 bg-gray-50 rounded-lg text-center border-2 border-gray-200">
+          <p className="text-gray-700 mb-3 text-base">
+            Want to share your thoughts? Join the conversation!
           </p>
+          <Button onClick={handleLoginRedirect} variant="primary" size="sm">
+            Login to Comment
+          </Button>
         </div>
       )}
 

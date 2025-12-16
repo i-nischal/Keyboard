@@ -1,4 +1,3 @@
-// frontend/src/components/common/Card.jsx
 
 /**
  * Reusable Card component for content display

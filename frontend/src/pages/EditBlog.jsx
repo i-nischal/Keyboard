@@ -1,11 +1,10 @@
-// frontend/src/pages/EditBlog.jsx
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { blogsAPI } from '../api/blogs';
-import { useAuth } from '../context/AuthContext';
-import DashboardLayout from '../components/layout/DashboardLayout';
-import BlogForm from '../components/blog/BlogForm';
-import LoadingSpinner from '../components/common/LoadingSpinner';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { blogsAPI } from "../api/blogs";
+import { useAuth } from "../context/AuthContext";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import BlogForm from "../components/blog/BlogForm";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 
 /**
  * Edit existing blog page
@@ -16,7 +15,7 @@ const EditBlog = () => {
   const { user } = useAuth();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchBlog();
@@ -30,14 +29,14 @@ const EditBlog = () => {
 
       // Check if user is the author
       if (blogData.author._id !== user._id) {
-        setError('You are not authorized to edit this blog');
-        setTimeout(() => navigate('/home'), 2000);
+        setError("You are not authorized to edit this blog");
+        setTimeout(() => navigate("/home"), 2000);
         return;
       }
 
       setBlog(blogData);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load blog');
+      setError(err.response?.data?.message || "Failed to load blog");
     } finally {
       setLoading(false);
     }

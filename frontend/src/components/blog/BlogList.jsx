@@ -1,4 +1,3 @@
-// frontend/src/components/blog/BlogList.jsx
 import { useState, useEffect } from "react";
 import { blogsAPI } from "../../api/blogs";
 import BlogCard from "./BlogCard";

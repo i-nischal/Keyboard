@@ -1,12 +1,11 @@
-// frontend/src/pages/Profile.jsx
-import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { authAPI } from '../api/auth';
-import DashboardLayout from '../components/layout/DashboardLayout';
-import Card from '../components/common/Card';
-import Input from '../components/common/Input';
-import Button from '../components/common/Button';
-import { User } from 'lucide-react';
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { authAPI } from "../api/auth";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import Card from "../components/common/Card";
+import Input from "../components/common/Input";
+import Button from "../components/common/Button";
+import { User } from "lucide-react";
 
 /**
  * User profile page with edit functionality
@@ -15,40 +14,40 @@ const Profile = () => {
   const { user, updateUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    bio: user?.bio || '',
-    avatar: user?.avatar || '',
-    password: '',
-    confirmPassword: '',
+    name: user?.name || "",
+    bio: user?.bio || "",
+    avatar: user?.avatar || "",
+    password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState('');
-  const [apiError, setApiError] = useState('');
+  const [success, setSuccess] = useState("");
+  const [apiError, setApiError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
-    setApiError('');
-    setSuccess('');
+    setApiError("");
+    setSuccess("");
   };
 
   const validate = () => {
     const newErrors = {};
 
     if (!formData.name || formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
+      newErrors.name = "Name must be at least 2 characters";
     }
 
     if (formData.password && formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = "Password must be at least 6 characters";
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     setErrors(newErrors);
@@ -76,16 +75,16 @@ const Profile = () => {
 
       const response = await authAPI.updateProfile(updateData);
       updateUser(response.data);
-      
-      setSuccess('Profile updated successfully!');
+
+      setSuccess("Profile updated successfully!");
       setIsEditing(false);
       setFormData((prev) => ({
         ...prev,
-        password: '',
-        confirmPassword: '',
+        password: "",
+        confirmPassword: "",
       }));
     } catch (err) {
-      setApiError(err.response?.data?.message || 'Failed to update profile');
+      setApiError(err.response?.data?.message || "Failed to update profile");
     } finally {
       setLoading(false);
     }
@@ -93,15 +92,15 @@ const Profile = () => {
 
   const handleCancel = () => {
     setFormData({
-      name: user?.name || '',
-      bio: user?.bio || '',
-      avatar: user?.avatar || '',
-      password: '',
-      confirmPassword: '',
+      name: user?.name || "",
+      bio: user?.bio || "",
+      avatar: user?.avatar || "",
+      password: "",
+      confirmPassword: "",
     });
     setErrors({});
-    setApiError('');
-    setSuccess('');
+    setApiError("");
+    setSuccess("");
     setIsEditing(false);
   };
 
@@ -109,7 +108,9 @@ const Profile = () => {
     <DashboardLayout>
       <div className="max-w-3xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Profile Settings</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            Profile Settings
+          </h1>
           <p className="text-gray-600">Manage your account information</p>
         </div>
 
@@ -146,16 +147,20 @@ const Profile = () => {
                     </div>
                   )}
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">{user?.name}</h2>
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      {user?.name}
+                    </h2>
                     <p className="text-gray-600">{user?.email}</p>
                   </div>
                 </div>
 
                 {/* Bio */}
                 <div>
-                  <h3 className="text-sm font-medium text-gray-900 mb-2">Bio</h3>
+                  <h3 className="text-sm font-medium text-gray-900 mb-2">
+                    Bio
+                  </h3>
                   <p className="text-gray-700">
-                    {user?.bio || 'No bio provided'}
+                    {user?.bio || "No bio provided"}
                   </p>
                 </div>
 
@@ -236,7 +241,11 @@ const Profile = () => {
                 </div>
 
                 <div className="flex justify-end space-x-3">
-                  <Button type="button" variant="outline" onClick={handleCancel}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleCancel}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit" variant="primary" loading={loading}>

@@ -1,5 +1,4 @@
-// frontend/src/pages/auth/Login.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, Lock } from "lucide-react";
@@ -18,6 +17,16 @@ const LoginForm = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
+  const [infoMessage, setInfoMessage] = useState("");
+
+  // Check for redirect message (e.g., "Please login to like blogs")
+  useEffect(() => {
+    if (location.state?.message) {
+      setInfoMessage(location.state.message);
+      // Clear the message after showing it
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,6 +81,13 @@ const LoginForm = () => {
           <p className="text-gray-500">Sign in to continue</p>
         </div>
 
+        {/* Info Message (from redirect) */}
+        {infoMessage && (
+          <div className="mb-6 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-2xl text-sm text-center">
+            {infoMessage}
+          </div>
+        )}
+
         {/* Error Message */}
         {apiError && (
           <div className="mb-6 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-2xl text-sm text-center">
@@ -80,7 +96,7 @@ const LoginForm = () => {
         )}
 
         {/* Form */}
-        <div className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email Input */}
           <div className="relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
@@ -123,24 +139,9 @@ const LoginForm = () => {
             )}
           </div>
 
-          {/* Terms Checkbox */}
-          <div className="flex items-center justify-center gap-2 py-2">
-            <input
-              type="checkbox"
-              id="terms"
-              className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
-            />
-            <label htmlFor="terms" className="text-sm text-gray-600">
-              I agree to the{" "}
-              <span className="text-black hover:underline cursor-pointer">
-                terms and conditions
-              </span>
-            </label>
-          </div>
-
           {/* Sign In Button */}
           <button
-            onClick={handleSubmit}
+            type="submit"
             disabled={loading}
             className="w-full bg-black text-white font-semibold py-3.5 rounded-full hover:bg-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -181,7 +182,7 @@ const LoginForm = () => {
               ← Back to blogs
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
